@@ -53,9 +53,9 @@ def localAlignmentScore(s1, s2):
                     valDag = costs[y-1][x-1] + MATCH
                else: valDag = costs[y-1][x-1] + MISMATCH
 
-               # Calculate the maximum value between the three calculated
-               # values and zero, and set that one as the cost for this
-               # index of the table.
+               # Calculate the maximum value and set that one as our cost,
+               # then put the direction of the maximum value in the directions
+               # table
                val = max(valTop,valLeft,valDag,0)
                if (val > maxValue):
                     maxValue = val
@@ -63,14 +63,8 @@ def localAlignmentScore(s1, s2):
                     maxColPos = x
                costs[y][x] = val
 
-               # Set the direction indicator table based on which value
-               # was the maximum
                if val == 0:
-                    # If no cost was greater than zero, set this as the
-                    # beginning of a new substring
                     directions[y][x] = "F"
-               # Otherwise, set the direction for where the maximum
-               # value came from
                elif val == valLeft:
                     directions[y][x] = "L"
                elif val == valDag:
@@ -118,12 +112,9 @@ def printTable(table, filename):
 
      file = open(filename, 'w')
 
-     # Get the size of the table
      row = len(table)
      col = len(table[0])
 
-     # Print the table to a file, separating columns with tab characters
-     # and separating rows with newline characters
      for y in range (0,row):
           for x in range (0,col):
                file.write(str(table[y][x]) + "\t")
@@ -153,15 +144,15 @@ def align(direction, s1, s2, row, col, filename):
      file = open(filename, 'w')
 
      # Set x and y coordinates for traversing the direction table
-     # at the the coordinates of the highest score in the costs
-     # table. Set the alignment strings as empty strings
+     # at the bottom right corner, then set the top and bottom
+     # strings for the string alignment as empty strings
      x = col
      y = row
      currentDir = direction[y][x]
      topSeq = ""
      botSeq = ""
 
-     # Traverse the table until the beginning of the substring
+     # Traverse the table until the top left corner of the table
      # is encountered
      while currentDir != "F":
 
@@ -189,8 +180,6 @@ def align(direction, s1, s2, row, col, filename):
           # Get next direction index from current position in the table
           currentDir = direction[y][x]
 
-     # Print the alignment strings to the output file, in paired lines
-     # of up to 50 characters each
      for i in range (0, len(topSeq), 50):
           file.write(topSeq[i:i+50] + "\n")
           file.write(botSeq[i:i+50] + "\n")
