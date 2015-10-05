@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# PUT YOUR NAME HERE
+# Victoria O'Neill and Matthew Farr
 # CS 423, Lab 5
 # fall 2015
 
@@ -23,7 +23,7 @@ def globalAlignmentScore(s1, s2):
 
      # Create table for getting back the optimal alignment, fill table with "A"
      directions = createTable(NUM_ROWS, NUM_COLS, "A")
-	
+
      # Fill the top row of the costs table with values decrementing by 6,
      # fill the top row of the directions table with L's
      val = 0
@@ -72,13 +72,13 @@ def globalAlignmentScore(s1, s2):
      
      # Print out table (only useful for small tables - used for debugging)
      # Comment out when you are satisfied that the algorithm is working
-     printTable(costs, "costs.txt")
-     printTable(directions, "directions.txt")
+     #printTable(costs, "costs.txt")
+     #printTable(directions, "directions.txt")
 
      # find optimal alignment
      align(directions, s1, s2, "alignment.txt")
 
-     # return optimal score (lower right-hand cell in table]
+     # return optimal score (lower right-hand cell in table)
      return costs[NUM_ROWS-1][NUM_COLS-1]
 
 ####################################################################
@@ -110,9 +110,12 @@ def printTable(table, filename):
 
      file = open(filename, 'w')
 
+     # Get the size of the table
      row = len(table)
      col = len(table[0])
 
+     # Print each value in the table, separating columns with tab
+     # characters and separating rows with newline characters
      for y in range (0,row):
           for x in range (0,col):
                file.write(str(table[y][x]) + "\t")
@@ -187,7 +190,7 @@ def align(direction, s1, s2, filename):
           file.write("\n")
 
      file.close()
-	
+
      return
 
 
@@ -199,12 +202,8 @@ def align(direction, s1, s2, filename):
 ###################################################
 
 # Calculate global alignment score of two sequences
-#s = "AGCGTCTA"
-#t = "TGCATCTCG"
-#s = "AAAGGTAA"
-#t = "ATCAATCG"
-s = "GATTACA"
-t = "AATGACAC"
+s = "AGCGTCTA"
+t = "TGCATCTCG"
 optimalScore = globalAlignmentScore(s, t)
 
 print(s)
